@@ -1,3 +1,5 @@
+# Docker Compose for Modern Web Application Development
+# Spring Boot 3.5.3 + Kotlin 2.2.10 + Java 21 LTS with LiveReload
 version: '3.8'
 
 services:
@@ -6,23 +8,25 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     ports:
-      - "8080:8080"
-      - "35729:35729" # LiveReload port
+      - "8080:8080"    # Main application port
+      - "35729:35729"  # Spring Boot DevTools LiveReload port
     volumes:
-      # Simple volume mount for live reloading
+      # Volume mount for live reloading and development
+      # Changes to source code automatically trigger application restart
       - .:/app
     environment:
       - SPRING_PROFILES_ACTIVE=dev
-      # Enable DevTools
+      # Enable Spring Boot DevTools for development
       - SPRING_DEVTOOLS_RESTART_ENABLED=true
       - SPRING_DEVTOOLS_LIVERELOAD_ENABLED=true
     healthcheck:
+      # Health check using Spring Boot Actuator endpoint
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
     restart: unless-stopped
-    # Keep container running for development
+    # Keep container running for interactive development
     stdin_open: true
     tty: true
