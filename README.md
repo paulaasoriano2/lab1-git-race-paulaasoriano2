@@ -55,17 +55,24 @@ A modern Spring Boot application built with Kotlin, featuring a responsive web i
    - API Endpoint: http://localhost:8080/api/hello
    - Health Check: http://localhost:8080/actuator/health
 
-### Using Docker
+### Using Docker for Development
 
-1. **Build the Docker image**
+1. **Using Docker Compose** (Recommended):
    ```bash
-   docker build -t modern-web-app .
+   docker-compose -f docker-compose.dev.yml up --build
    ```
 
-2. **Run the container**
+2. **Build and run development container**:
    ```bash
-   docker run -p 8080:8080 modern-web-app
+   docker build -f Dockerfile.dev -t modern-web-app-dev .
+   docker run -p 8080:8080 -p 35729:35729 -v $(pwd):/app modern-web-app-dev
    ```
+
+The development Docker setup includes:
+- **LiveReload Support**: Automatic browser refresh on code changes
+- **Volume Mounting**: Source code changes are immediately reflected
+- **Spring Boot DevTools**: Automatic application restart on file changes
+- **Health Monitoring**: Built-in health checks via Spring Boot Actuator
 
 ## 🧪 Testing
 
@@ -143,13 +150,14 @@ management.endpoints.web.exposure.include=health,info,metrics
 
 ## 🐳 Docker Details
 
-The application includes a multi-stage Dockerfile optimized for production:
+The application includes a development-focused Docker setup:
 
-- **Builder stage**: Uses JDK 21 to compile the application
-- **Runtime stage**: Uses JRE 21 for smaller image size
-- **Security**: Runs as non-root user
-- **Health checks**: Built-in health monitoring
-- **Optimization**: Cached dependency layers for faster builds
+- **Development Dockerfile**: Uses JDK 21 Alpine for development with live reload
+- **Docker Compose**: Orchestrates the development environment with volume mounting
+- **LiveReload**: Spring Boot DevTools automatically reloads on file changes
+- **Volume Mounting**: Source code changes are immediately reflected in the container
+- **Health Checks**: Built-in health monitoring via Spring Boot Actuator
+- **Development Tools**: Includes wget for health checks and debugging utilities
 
 ## 🔧 Development
 
