@@ -1,4 +1,65 @@
-# Web Engineering 2025-2026 / Lab 1: Git Race
+---
+title: "Web Engineering 2025-2026"
+subtitle: "Lab 1: Git Race"   
+date: "2025-01-10"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: true
+    code-tools: true
+    theme: cosmo
+    css: |
+      body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+      .quarto-title-block { border-bottom: 2px solid #2c3e50; padding-bottom: 1rem; }
+      h1, h2, h3 { color: #2c3e50; }
+      pre { background-color: #f8f9fa; border-left: 4px solid #007acc; }
+      .callout { border-left: 4px solid #28a745; }
+  pdf:
+    documentclass: article
+    classoption: [11pt, a4paper]
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    geometry: [margin=2.5cm, headheight=15pt]
+    fontsize: 11pt
+    linestretch: 1.15
+    colorlinks: true
+    breakurl: true
+    urlcolor: blue
+    linkcolor: blue
+    citecolor: blue
+    hyperrefoptions:
+      - linktoc=all
+      - bookmarksnumbered=true
+      - bookmarksopen=true
+    header-includes:
+      - |
+        \usepackage{helvet}
+        \renewcommand{\familydefault}{\sfdefault}
+        \usepackage{hyperref}
+        \usepackage{fancyhdr}
+        \pagestyle{fancy}
+        \fancyhf{}
+        \fancyhead[L]{Web Engineering 2025-2026}
+        \fancyhead[R]{Lab 1: Git Race}
+        \fancyfoot[C]{\thepage}
+        \renewcommand{\headrulewidth}{0.4pt}
+        \usepackage{microtype}
+        \usepackage{booktabs}
+        \usepackage{array}
+        \usepackage{longtable}
+        \usepackage{xcolor}
+        \definecolor{sectioncolor}{RGB}{44,62,80}
+        \usepackage{sectsty}
+        \allsectionsfont{\color{sectioncolor}}
+  docx:
+    toc: true
+    number-sections: true
+    reference-doc: custom-reference.docx
+lang: en
+---
 
 Welcome to the first lab assignment of the 2025--2026 course! This guide will help you complete the assignment efficiently. Although this guide is command-line oriented, you are welcome to use IDEs like **VS Code**, **IntelliJ IDEA**, or **Eclipse**—all of which fully support the tools we'll be using. Ensure you have at least **Java 17** installed on your system before getting started.
 
@@ -60,31 +121,48 @@ You must use the invitation URL published in Moodle.
    - **REST API**: [http://localhost:8080/api/hello](http://localhost:8080/api/hello) -- JSON API endpoint
    - **Health Check**: [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health) -- Application health status
 
-### Using Docker
+### Using Docker for Development
 
-The application includes full Docker support for easy deployment:
+The application includes Docker support optimized for development with live reload capabilities:
 
-1. **Build the Docker Image**:
+#### Development Docker Setup
+
+1. **Using Docker Compose** (Recommended for Development):
    ```bash
-   docker build -t modern-web-app .
+   docker-compose -f docker-compose.dev.yml up --build
    ```
 
-2. **Run the Container**:
+2. **Build and Run Development Container**:
    ```bash
-   docker run -p 8080:8080 modern-web-app
+   docker build -f Dockerfile.dev -t modern-web-app-dev .
+   docker run -p 8080:8080 -p 35729:35729 -v $(pwd):/app modern-web-app-dev
    ```
 
-3. **Using Docker Compose** (Alternative):
-   ```bash
-   docker-compose up
-   ```
+#### Development Docker Features
 
-The Docker setup includes:
-- **Multi-stage builds** for optimized image size
-- **Java 21 LTS** runtime environment
-- **Non-root user** for security
-- **Health checks** for container monitoring
-- **Production-ready** configuration
+The development Docker setup includes:
+
+- **Spring Boot 3.5.3 + Kotlin 2.2.10 + Java 21 LTS** runtime environment
+- **LiveReload Support**: Automatic browser refresh on code changes (port 35729)
+- **Volume Mounting**: Source code changes are immediately reflected in the container
+- **Spring Boot DevTools**: Automatic application restart on file changes
+- **Health Checks**: Built-in health monitoring via Spring Boot Actuator
+- **Development Profile**: Optimized for development with debugging enabled
+
+#### Accessing the Application
+
+Once the Docker container is running, you can access:
+- **Web Interface**: http://localhost:8080
+- **REST API**: http://localhost:8080/api/hello
+- **Health Check**: http://localhost:8080/actuator/health
+- **LiveReload**: Automatically enabled for CSS/JS changes
+
+#### Development Workflow
+
+1. **Start the container**: `docker-compose -f docker-compose.dev.yml up --build`
+2. **Edit your code**: Changes are automatically detected and the application restarts
+3. **View changes**: Browser automatically refreshes for static assets
+4. **Stop the container**: `docker-compose -f docker-compose.dev.yml down`
 
 ## Current Application Features
 
@@ -109,7 +187,7 @@ The application has been significantly enhanced and now includes:
 Your goal is to enhance and document the existing modern web application by introducing new functionalities. Specifically, you should:
 
 - **Add at least 100 lines** of documentation and code improvements.
-- Document your work in the source code and provide explanations in the [../REPORT.md](../REPORT.md) file.
+- Document your work in the source code and provide explanations in the **REPORT.md** file.
 - Follow [Kotlin best practices](https://kotlinlang.org/docs/kotlin-doc.html) for Kotlin files and [GitHub Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) for `.md` files.
 
 ### Potential New Functionalities
@@ -187,6 +265,7 @@ Outstanding contributions will earn you a 5% bonus on your individual project sc
 #### Outstanding Contribution Criteria
 
 **MANDATORY REQUIREMENT**: Proper Git practices are **mandatory** for the 5% bonus. This includes:
+
 - **Meaningful Commit Messages**: Clear, descriptive commit messages that explain what and why
 - **Logical Commit History**: Well-organized commits that tell a story of your development process
 - **Proper Branching**: Use of feature branches for new functionality
@@ -338,6 +417,7 @@ You must submit your work in **two ways**:
 #### Moodle Zip File Submission
 
 Create a zip file containing your complete project and upload it to Moodle. The zip file should include:
+
 - All source code files
 - Documentation files (README.md, description.md, REPORT.md)
 - Test files
@@ -380,6 +460,7 @@ You must create a `REPORT.md` file in your project root that includes:
 - [Any modifications made to AI-generated code]
 
 ### Original Work
+
 - [Describe work done without AI assistance]
 - [Your understanding and learning process]
 ```
