@@ -1,0 +1,56 @@
+# Development .dockerignore
+# This file is used when building the development Docker image
+
+# Build artifacts (will be rebuilt in container)
+build/
+.gradle/
+out/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Git
+.git/
+.gitignore
+
+# Docker files (avoid recursive copying)
+Dockerfile*
+docker-compose*.yml
+.dockerignore*
+
+# Documentation (optional - remove if you want docs in container)
+docs/
+*.md
+README*
+
+# Test results
+test-results/
+coverage/
+
+# Node modules (if any)
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+
+
+
