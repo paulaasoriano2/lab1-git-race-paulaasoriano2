@@ -17,25 +17,28 @@ class SecurityConfiguration {
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .authorizeHttpRequests { requests ->
-                requests
-                    .requestMatchers(
-                        "/", "/home", "/login", 
-                        "/css/**", "/js/**", "/images/**", 
-                        "/webjars/**", "/resources/**", "/static/**", "/public/**", "/assets/**"
-                    ).permitAll()
-                    .anyRequest().authenticated()
+            .authorizeHttpRequests { requests -> requests
+                .requestMatchers(
+                    "/login", 
+                    "/css/**", "/js/**", "/images/**", 
+                    "/webjars/**", "/resources/**", "/static/**", "/public/**", "/assets/**"
+                ).permitAll()
+                .anyRequest().authenticated()
             }
-            .formLogin { form ->
-                form
-                    .loginPage("/login")
-                    .usernameParameter("email")
-                    .passwordParameter("password")
-                    .defaultSuccessUrl("/", true)
-                    .failureUrl("/login?error=true")
-                    .permitAll()
+            .formLogin { form -> form
+                .loginPage("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/login?error=true") 
+                .permitAll()
             }
-            .logout { logout -> logout.permitAll() }
+            .logout { logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")  // to redirect to the login page after logout
+                .permitAll()
+}
+
 
         return http.build()
     }
