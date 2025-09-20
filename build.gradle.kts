@@ -27,6 +27,13 @@ dependencies {
     implementation(libs.bootstrap)
     implementation(libs.jackson.module.kotlin)
     testImplementation(libs.spring.boot.starter.test)
+
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf") 
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    
 }
 
 tasks.withType<Test> {
