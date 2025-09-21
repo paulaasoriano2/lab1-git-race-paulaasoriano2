@@ -26,11 +26,11 @@
                 <a class="nav-link" th:href="@{/?lang=en}">EN</a>
                 <a class="nav-link" th:href="@{/?lang=fr}">FR</a>
 
-            <!-- Login / Logout button -->
-                <button th:if="${!loggedIn}" class="btn btn-outline-light ms-3" onclick="location.href='/login'">Login</button>
+                <!-- Login / Logout button -->
+                <button th:if="${!loggedIn}" class="btn btn-outline-light ms-3" onclick="location.href='/login'" th:text="#{navbar.login}"></button>
 
                 <form th:if="${loggedIn}" th:action="@{/logout}" method="post" class="d-inline">
-                    <button class="btn btn-outline-light ms-3" type="submit">Logout</button>
+                    <button class="btn btn-outline-light ms-3" type="submit" th:text="#{navbar.logout}"></button>
                 </form>
             </div>
         </div>
