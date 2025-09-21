@@ -18,7 +18,7 @@ class HelloControllerUnitTests {
     
     @Test
     fun `should return welcome view with default message`() {
-        val view = controller.welcome(model, "")
+        val view = controller.welcome(model, "", null) // Authentication parameter is null for simplicity
         
         assertThat(view).isEqualTo("welcome")
         assertThat(model.getAttribute("message")).isEqualTo("Test Message")
@@ -27,7 +27,7 @@ class HelloControllerUnitTests {
     
     @Test
     fun `should return welcome view with personalized message`() {
-        val view = controller.welcome(model, "Developer")
+        val view = controller.welcome(model, "Developer", null)
         
         assertThat(view).isEqualTo("welcome")
         assertThat(model.getAttribute("message")).isEqualTo("Hello, Developer!")

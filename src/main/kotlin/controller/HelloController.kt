@@ -7,6 +7,8 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.security.core.Authentication
+
 
 @Controller
 class HelloController(
@@ -17,11 +19,15 @@ class HelloController(
     @GetMapping("/")
     fun welcome(
         model: Model,
-        @RequestParam(defaultValue = "") name: String
+        @RequestParam(defaultValue = "") name: String,
+        authentication: Authentication?
     ): String {
         val greeting = if (name.isNotBlank()) "Hello, $name!" else message
         model.addAttribute("message", greeting)
         model.addAttribute("name", name)
+
+        // New attribute to indicate if the user is logged in
+        model.addAttribute("loggedIn", authentication != null)
         return "welcome"
     }
 }

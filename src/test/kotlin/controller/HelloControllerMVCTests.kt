@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.security.test.context.support.WithMockUser
 
 @WebMvcTest(HelloController::class, HelloApiController::class)
 class HelloControllerMVCTests {
@@ -20,6 +21,7 @@ class HelloControllerMVCTests {
     private lateinit var mockMvc: MockMvc
 
     @Test
+    @WithMockUser(username = "paula@gmail.com", roles = ["USER"]) // Simulate an authenticated user 
     fun `should return home page with default message`() {
         mockMvc.perform(get("/"))
             .andDo(print())
@@ -30,6 +32,7 @@ class HelloControllerMVCTests {
     }
     
     @Test
+    @WithMockUser(username = "paula@gmail.com", roles = ["USER"])
     fun `should return home page with personalized message`() {
         mockMvc.perform(get("/").param("name", "Developer"))
             .andDo(print())
@@ -40,6 +43,7 @@ class HelloControllerMVCTests {
     }
     
     @Test
+    @WithMockUser(username = "paula@gmail.com", roles = ["USER"])
     fun `should return API response as JSON`() {
         mockMvc.perform(get("/api/hello").param("name", "Test"))
             .andDo(print())

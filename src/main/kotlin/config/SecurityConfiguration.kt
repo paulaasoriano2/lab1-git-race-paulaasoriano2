@@ -19,7 +19,7 @@ class SecurityConfiguration {
         http
             .authorizeHttpRequests { requests -> requests
                 .requestMatchers(
-                    "/login", 
+                    "/", "/login", "api/hello", "/actuator/health", 
                     "/css/**", "/js/**", "/images/**", 
                     "/webjars/**", "/resources/**", "/static/**", "/public/**", "/assets/**"
                 ).permitAll()
@@ -35,7 +35,7 @@ class SecurityConfiguration {
             }
             .logout { logout -> logout
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")  // to redirect to the login page after logout
+                .logoutSuccessUrl("/")  // to redirect to the main page page after logout
                 .permitAll()
 }
 
