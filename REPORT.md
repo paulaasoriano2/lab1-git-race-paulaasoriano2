@@ -1,3 +1,4 @@
+*Paula Soriano Sánchez (843710)*
 # Lab 1 Git Race -- Project Report
 
 ## 1. Description of Changes
@@ -104,6 +105,14 @@ The problem was that Spring Security expected a `username` field by default, but
 - **Logout implementation**
 The problem was that the proyect was using a button for the logout functionality and `location.href='/logout'` to redirect the user when a person clicked on it. This caused issues because Spring Security requires POST for logout.
 The solution was to replace it with a `<form method="post" action="/logout">` with the button inside. The reason is that Spring Security enforces POST logout to prevent CSRF attacks.
+
+- **Tests failing due to escaped characters**
+The problem was that the tests called `should display client-side HTTP debug interface` and `should return home page with modern title and client-side HTTP debug` were checking for the raw string *"Interactive HTTP Testing & Debug"*, but Thymeleaf escapes special characters when rendering HTML. As a result, the page source contained *"Interactive HTTP Testing `&amp;` Debug"*, causing the tests to fail.
+The solution was to update the tests to expect the escaped string `&amp;`.
+
+- **Tests failing due to login**
+The problem was that, once the authentication functionality worked, the tests included in the file `HelloControllerMVCTests.kt` started failing.
+The solution was to add the following line above each test in order to simulate in each of them an authenticated user: `@WithMockUser(username = "paula@gmail.com", roles = ["USER"])`.
 #### 4.2.3. Percentage of AI-assisted vs. original work
 Approximately 20–25% of the documentation and debugging guidance was assisted by ChatGPT.
 The majority of the implementation, testing, and original code logic was developed independently.
