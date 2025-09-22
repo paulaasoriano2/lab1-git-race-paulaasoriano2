@@ -14,6 +14,11 @@ import org.springframework.security.web.SecurityFilterChain
 @EnableWebSecurity
 class SecurityConfiguration {
 
+    /**
+     * Defines the security rules of the application requiring login for all requests
+     * except: home, login, API, health and static files.
+     * It also customs login form and logout behavior.
+     */
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
@@ -43,6 +48,12 @@ class SecurityConfiguration {
         return http.build()
     }
 
+    /**
+     * Creates an in-memory user:
+     * - Email: paula@gmail.com
+     * - Password: pauli
+     * - Role: USER
+     */
     @Bean
     fun userDetailsService(): UserDetailsService {
         val user: UserDetails = User.withDefaultPasswordEncoder()
