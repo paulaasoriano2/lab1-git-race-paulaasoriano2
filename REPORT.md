@@ -102,6 +102,10 @@ The problem was that the files `messages.properties`, `messages_en.properties`, 
 - **Login not working**
 The problem was that Spring Security expected a `username` field by default, but in the proyect it was used the `email`. To fix this, it has been configured `.usernameParameter("email")` in formLogin, making sure the login form input had `name="email"`.
 
+- **Login CSRF issue**
+The problem was that the login did not work.
+The solution was to include the CSRF token in the form using: `<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />`, which Spring Security requires by default for POST requests.
+
 - **Logout implementation**
 The problem was that the proyect was using a button for the logout functionality and `location.href='/logout'` to redirect the user when a person clicked on it. This caused issues because Spring Security requires POST for logout.
 The solution was to replace it with a `<form method="post" action="/logout">` with the button inside. The reason is that Spring Security enforces POST logout to prevent CSRF attacks.

@@ -36,10 +36,10 @@
                         </form>
                         
                         <div th:if="${param.error}">
-                            <div class="alert alert-danger mt-3" th:text="#{login.error}">Email o contraseña incorrectos</div>
+                            <div class="alert alert-danger mt-3" th:text="#{login.error}"></div>
                         </div>
                         <div th:if="${param.logout}">
-                            <div class="alert alert-success mt-3" th:text="#{login.logout}">Sesión cerrada con éxito</div>
+                            <div class="alert alert-success mt-3" th:text="#{login.logout}"></div>
                         </div>
                         
                     </div>
